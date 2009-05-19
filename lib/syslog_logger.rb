@@ -95,6 +95,13 @@ class SyslogLogger
     self.class.const_set :SYSLOG, Syslog.open(program_name)
   end
 
+  # In Logger, this dumps the raw message; the closest equivalent
+  # would be Logger::UNKNOWN
+  #
+  def <<(message)
+    add(Logger::UNKNOWN, message)
+  end
+
   ##
   # Almost duplicates Logger#add.  +progname+ is ignored.
 
