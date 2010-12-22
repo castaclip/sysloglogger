@@ -100,7 +100,8 @@ class SyslogLogger
   #
   def <<(message)
     add(Logger::UNKNOWN, message)
-  end
+  end  
+  alias write <<
 
   ##
   # Almost duplicates Logger#add.  +progname+ is ignored.
