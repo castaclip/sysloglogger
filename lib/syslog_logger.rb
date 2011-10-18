@@ -100,7 +100,7 @@ class SyslogLogger
   #
   def <<(message)
     add(Logger::UNKNOWN, message)
-  end  
+  end
   alias write <<
 
   ##
@@ -125,6 +125,10 @@ class SyslogLogger
     yield
   ensure
     @level = old_logger_level
+  end
+
+  # Compability method for padrino, is mostly set to true and ignored by us
+  def sync= to_be_ignored
   end
 
   private
