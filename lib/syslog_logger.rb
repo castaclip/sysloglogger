@@ -81,18 +81,17 @@ class SyslogLogger
 
   attr_accessor :level
 
-  ##
   # Fills in variables for Logger compatibility.  If this is the first
   # instance of SyslogLogger, +program_name+ may be set to change the logged
-  # program name.
+  # program name and +facility+ may be set to specify a custom facility
+  # with your syslog daemon.
   #
   # Due to the way syslog works, only one program name may be chosen.
-
-  def initialize(program_name = 'rails')
+  def initialize(program_name = 'rails', facility = Syslog::LOG_USER, logopts=nil)
     @level = Logger::DEBUG
 
     return if defined? SYSLOG
-    self.class.const_set :SYSLOG, Syslog.open(program_name)
+    self.class.const_set :SYSLOG, Syslog.open(program_name, logopts, facility)
   end
 
   # In Logger, this dumps the raw message; the closest equivalent
