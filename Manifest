@@ -1,8 +1,9 @@
 History.txt
 lib/analyzer_tools/syslog_logger.rb
 lib/syslog_logger.rb
+lib/syslog_logger_env_formatting.rb
+Manifest
 Rakefile
 README.rdoc
 sysloglogger.gemspec
 test/test_syslog_logger.rb
-Manifest

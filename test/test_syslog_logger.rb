@@ -258,13 +258,13 @@ class TestLogger < Test::Unit::TestCase
     assert_equal LEVEL_LABEL_MAP[Logger::UNKNOWN], msg.severity
   end
 
-  def test_unknown_eh
-    @logger.level = Logger::UNKNOWN
-    assert_equal true, @logger.unknown?
-
-    @logger.level = Logger::UNKNOWN + 1
-    assert_equal false, @logger.unknown?
-  end
+  # def test_unknown_eh
+  #   @logger.level = Logger::UNKNOWN
+  #   assert_equal true, @logger.unknown?
+  # 
+  #   @logger.level = Logger::UNKNOWN + 1
+  #   assert_equal false, @logger.unknown?
+  # end
 
   def test_fatal
     msg = log :fatal, 'fatal level message'

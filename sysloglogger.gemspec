@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{SyslogLogger}
-  s.version = "1.4.2"
+  s.version = "1.6.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Eric Hodel; Chris Powell"]
-  s.date = %q{2008-11-12}
+  s.authors = ["Daniel Schweighöfer; Sebastian Schulze; Eric Hodel; Chris Powell"]
+  s.date = %q{2011-10-19}
   s.description = %q{An improved Logger replacement that logs to syslog. It is almost drop-in with a few caveats.}
-  s.email = %q{drbrain@segment7.net; cpowell@prylis.com}
+  s.email = %q{daniel@netsteward.net; info@bascht.com; drbrain@segment7.net; cpowell@prylis.com}
   s.extra_rdoc_files = ["lib/analyzer_tools/syslog_logger.rb", "lib/syslog_logger.rb", "README.rdoc"]
   s.files = ["History.txt", "lib/analyzer_tools/syslog_logger.rb", "lib/syslog_logger.rb", "Manifest", "Rakefile", "README.rdoc", "sysloglogger.gemspec", "test/test_syslog_logger.rb", "SyslogLogger.gemspec"]
   s.has_rdoc = true

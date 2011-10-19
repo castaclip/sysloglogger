@@ -2,11 +2,10 @@ require 'syslog'
 require 'logger'
 
 class SyslogLogger
+  include Logger::Severity
 
-  ##
   # The version of SyslogLogger you are using.
-
-  VERSION = '1.4.1'
+  VERSION = '1.6.2'
 
   # From 'man syslog.h':
   # LOG_EMERG   A panic condition was reported to all processes.
@@ -25,60 +24,44 @@ class SyslogLogger
   # INFO:   generic (useful) information about system operation
   # DEBUG:  low-level information for developers
 
-  ##
   # Maps Logger warning types to syslog(3) warning types.
-
   LOGGER_MAP = {
     :unknown => :alert,
-    :fatal   => :alert,
+    :fatal   => :crit,
     :error   => :err,
     :warn    => :warning,
     :info    => :info,
     :debug   => :debug
   }
 
-  ##
   # Maps Logger log levels to their values so we can silence.
-
   LOGGER_LEVEL_MAP = {}
 
   LOGGER_MAP.each_key do |key|
     LOGGER_LEVEL_MAP[key] = Logger.const_get key.to_s.upcase
   end
 
-  ##
   # Maps Logger log level values to syslog log levels.
-
   LEVEL_LOGGER_MAP = {}
 
   LOGGER_LEVEL_MAP.invert.each do |level, severity|
     LEVEL_LOGGER_MAP[level] = LOGGER_MAP[severity]
   end
 
-  ##
   # Builds a methods for level +meth+.
-
-  def self.make_methods(meth)
-    eval <<-EOM, nil, __FILE__, __LINE__ + 1
-      def #{meth}(message = nil)
-        return true if #{LOGGER_LEVEL_MAP[meth]} < @level
-        SYSLOG.#{LOGGER_MAP[meth]} clean(message || yield)
-        return true
-      end
-
-      def #{meth}?
-        @level <= Logger::#{meth.to_s.upcase}
-      end
-    EOM
+  for severity in Logger::Severity.constants
+    class_eval <<-EOT, __FILE__, __LINE__
+      def #{severity.downcase}(message = nil, progname = nil, &block)  # def debug(message = nil, progname = nil, &block)
+        add(#{severity}, message, progname, &block)                    #   add(DEBUG, message, progname, &block)
+      end                                                              # end
+                                                                       #
+      def #{severity.downcase}?                                        # def debug?
+        #{severity} >= @level                                          #   DEBUG >= @level
+      end                                                              # end
+    EOT
   end
 
-  LOGGER_MAP.each_key do |level|
-    make_methods level
-  end
-
-  ##
   # Log level for Logger compatibility.
-
   attr_accessor :level
 
   # Fills in variables for Logger compatibility.  If this is the first
@@ -104,20 +87,16 @@ class SyslogLogger
 
   ##
   # Almost duplicates Logger#add.  +progname+ is ignored.
-
   def add(severity, message = nil, progname = nil, &block)
     severity ||= Logger::UNKNOWN
-    return true if severity < @level
-    message = clean(message || block.call)
-    SYSLOG.send LEVEL_LOGGER_MAP[severity], clean(message)
-    return true
+    if severity >= @level
+      message = clean(message || block.call)
+      SYSLOG.send LEVEL_LOGGER_MAP[severity], clean(message)
+    end
+    true
   end
 
-  ##
   # Allows messages of a particular log level to be ignored temporarily.
-  #
-  # Can you say "Broken Windows"?
-
   def silence(temporary_level = Logger::ERROR)
     old_logger_level = @level
     @level = temporary_level
@@ -132,9 +111,7 @@ class SyslogLogger
 
   private
 
-  ##
   # Clean up messages so they're nice and pretty.
-
   def clean(message)
     message = message.to_s.dup
     message.strip!
@@ -144,4 +121,3 @@ class SyslogLogger
   end
 
 end
-
