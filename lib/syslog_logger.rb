@@ -90,7 +90,7 @@ class SyslogLogger
   def add(severity, message = nil, progname = nil, &block)
     severity ||= Logger::UNKNOWN
     if severity >= @level
-      message = clean(message || block.call)
+      message = clean(message || (block.call if block_given?))
       SYSLOG.send LEVEL_LOGGER_MAP[severity], clean(message)
     end
     true
