@@ -9,14 +9,12 @@ Gem::Specification.new do |s|
   s.date = %q{2011-10-19}
   s.description = %q{An improved Logger replacement that logs to syslog. It is almost drop-in with a few caveats.}
   s.email = %q{daniel@netsteward.net; info@bascht.com; drbrain@segment7.net; cpowell@prylis.com}
-  s.extra_rdoc_files = ["lib/analyzer_tools/syslog_logger.rb", "lib/syslog_logger.rb", "README.rdoc"]
-  s.files = [ "lib/syslog_logger.rb", "Manifest", "Rakefile", "README.rdoc","sysloglogger.gemspec", "test/test_syslog_logger.rb", "sysloglogger.gemspec"]
+  s.extra_rdoc_files = ["lib/syslog_logger.rb", "README.rdoc"]
+  s.files = [ "lib/syslog_logger.rb", "Manifest", "Rakefile", "README.rdoc", "test/test_syslog_logger.rb", "sysloglogger.gemspec"]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/cpowell/sysloglogger}
+  s.homepage = %q{http://github.com/castaclip/sysloglogger}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "SyslogLogger", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{sysloglogger}
-  s.rubygems_version = %q{1.3.1}
   s.summary = %q{An improved Logger replacement that logs to syslog. It is almost drop-in with a few caveats.}
   s.test_files = ["test/test_syslog_logger.rb"]
 
